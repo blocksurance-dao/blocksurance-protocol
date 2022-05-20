@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "declaration": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "files": ["./hardhat.config.ts"],
+  "include": [
+    "./hardhat.config.ts",
+    "./scripts",
+    "./deploy",
+    "./test",
+    "./typechain",
+    "artifacts/**/*",
+    "artifacts/**/*.json",
+    "scripts/**/*",
+    "tasks/**/*",
+    "test/**/*",
+    "typechain/**/*",
+    "types/**/*"
+  ]
+}

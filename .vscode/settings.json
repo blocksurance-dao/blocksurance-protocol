@@ -1,0 +1,7 @@
+{
+  "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
+  "solidity.defaultCompiler": "remote",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.fontFamily": "Courier"
+}
