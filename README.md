@@ -5,19 +5,13 @@ used by the BLOCKSURANCE DAO.
 
 The project comes with a sample contracts, tests for those contracts, a sample script that deploys those contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
 
-**Protocol: **
+**Protocol:** Part of the protocol is handled by withtally [SafeGuard](https://github.com/withtally/safeguard).
 
-Part of the protocol is handled by withtally [SafeGuard](https://github.com/withtally/safeguard).
-
-**Governance: **
-
-Governance is hadled by [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable).
+**Governance:** Governance is hadled by [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable).
 The DAO interface is deployed to [Tally](https://www.tally.xyz/).
 DAO MultiSig is [GnosisSafe](https://github.com/safe-global/safe-contracts).
 
-**Whitepaper: **
-
-Read our [whitepaper](https://github.com/blocksurance-dao/blocksurance/blob/master/blocksurance-whitepaper.pdf).
+**Whitepaper:** Read our [whitepaper](https://github.com/blocksurance-dao/blocksurance/blob/master/blocksurance-whitepaper.pdf).
 
 Try running some of the following tasks:
 
