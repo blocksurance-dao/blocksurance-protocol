@@ -5,8 +5,8 @@ contract WhiteList {
 	address payable private owner;
 	mapping(address => bool) public whiteList;
 
-	constructor() {
-		owner = payable(msg.sender);
+	constructor(address gnosisSafe) {
+		owner = payable(gnosisSafe);
 	}
 
 	modifier onlyOwner() {
