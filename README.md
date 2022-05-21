@@ -5,6 +5,12 @@ used by the BLOCKSURANCE DAO.
 
 The project comes with a sample contracts, tests for those contracts, a sample script that deploys those contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
 
+**Protocol** Part of the protocol is handled by withtally [SafeGuard](https://github.com/withtally/safeguard)!
+
+**Governance** is hadled by [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable) and the DAO interface is deployed to [Tally](https://www.tally.xyz/)!
+
+**Whitepaper:** Read our [whitepaper](https://github.com/blocksurance-dao/blocksurance/blob/master/blocksurance-whitepaper.pdf)!
+
 Try running some of the following tasks:
 
 ```shell
