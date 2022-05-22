@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/WhiteList.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.4;\n\ncontract WhiteList {\n\taddress payable private owner;\n\tmapping(address => bool) public whiteList;\n\n\tconstructor(address gnosisSafe) {\n\t\towner = payable(gnosisSafe);\n\t}\n\n\tmodifier onlyOwner() {\n\t\trequire(msg.sender == owner, \"You're not the owner!\");\n\t\t_;\n\t}\n\n\tevent ListToken(address _address, uint256 time);\n\tevent DelistToken(address _address, uint256 time);\n\n\tstruct Token {\n\t\tstring name;\n\t\tstring symbol;\n\t\taddress tokenAddress;\n\t}\n\n\tToken[] private tokenList;\n\n\tfunction get(address _addr) public view returns (bool) {\n\t\t// Check if token address is listed on platform\n\t\treturn whiteList[_addr];\n\t}\n\n\tfunction listToken(\n\t\tstring calldata name,\n\t\tstring calldata symbol,\n\t\taddress _addr\n\t) external onlyOwner {\n\t\t// Add token address to listed tokens\n\t\trequire(whiteList[_addr] != true, \"Token Exists!\");\n\t\twhiteList[_addr] = true;\n\t\ttokenList.push(Token(name, symbol, _addr));\n\t\temit ListToken(_addr, block.timestamp);\n\t}\n\n\tfunction removeToken(address _addr) external onlyOwner {\n\t\t// Remove token listing.\n\t\trequire(whiteList[_addr] == true, \"Token not listed!\");\n\t\tdelete whiteList[_addr];\n\n\t\tfor (uint256 i = 0; i < tokenList.length; i++) {\n\t\t\tif (tokenList[i].tokenAddress == _addr) {\n\t\t\t\ttokenList[i] = tokenList[tokenList.length - 1];\n\t\t\t\ttokenList.pop();\n\t\t\t\temit DelistToken(_addr, block.timestamp);\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t}\n\n\t/** @dev Function to get all whitelisted tokens.\n\t * @return Array of token objects\n\t */\n\tfunction getListings() external view returns (Token[] memory) {\n\t\treturn tokenList;\n\t}\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

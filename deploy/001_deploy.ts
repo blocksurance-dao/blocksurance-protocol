@@ -9,7 +9,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   await deploy("WhiteList", {
     from: deployer,
-    // args: ["0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"],
+    args: ["0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"],
     log: true,
   });
 };
