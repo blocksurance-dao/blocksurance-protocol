@@ -7,15 +7,18 @@ import "./IWhiteList.sol";
 
 contract VaultFactory {
 	address private registar;
+	address private governor;
 	address private whitelist;
 	address payable private owner;
 
 	constructor(
 		address _registar,
+		address _governor,
 		address _whitelist,
 		address gnosisSafe
 	) {
 		registar = _registar;
+		governor = _governor;
 		whitelist = _whitelist;
 		owner = payable(gnosisSafe);
 	}
@@ -91,7 +94,8 @@ contract VaultFactory {
 				address(this), //account2
 				deployerAddress,
 				vaultName,
-				refAddress
+				refAddress,
+				governor
 			)
 		);
 
