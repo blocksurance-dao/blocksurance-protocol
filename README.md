@@ -44,12 +44,12 @@ cap to payout ratio 1.445142857142857
 
   ✔ Multiplier
   🚩 Testing: 🥩 Registar
-    ✔ Should set env vars (5015ms)
+    ✔ Should set env vars (5125ms)
 Registar contract:  0x5FbDB2315678afecb367f032d93F642f64180aa3
-    ✔ Should deploy Registar (150ms)
+    ✔ Should deploy Registar (178ms)
           ⏳ Registering user...
           ⏳ Waiting for confirmation from register function...
-    ✔ Should register user in registar (144ms)
+    ✔ Should register user in registar (243ms)
           ⏳ Getting user...
           ⏳ Waiting for confirmation from get function...
     ✔ Should check if user is in registar
@@ -59,14 +59,14 @@ Registar contract:  0x5FbDB2315678afecb367f032d93F642f64180aa3
     ✔ Should getRef in registar
           ⏳ Registering user...
           ⏳ Waiting for confirmation from register function...
-    ✔ Should register another user in registar (94ms)
+    ✔ Should register another user in registar (151ms)
           ⏳ Getting user ref code...
           ⏳ Waiting for confirmation from getRef function...
          0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
-    ✔ Should getRef in registar 2
+    ✔ Should getRef in registar 2 (43ms)
           ⏳ Retrieving token listings...
           ⏳ Waiting for confirmation from getListings function...
-    ✔ Should retrieve users array from contract (48ms)
+    ✔ Should retrieve users array from contract (54ms)
           ⏳ Getting user ref code...
           ⏳ Waiting for confirmation from getRef function...
          0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
@@ -81,22 +81,22 @@ acc1  address 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
     ✔ Should retrieve User object by address
          0x16736f60c1e8f9e7f7ea4fb5fb7d896daee468a8776c6282b985d3d71d6029f0
          0xa488704ce0bc033534e2c584e468f15e47cca0d9fef0b52fb67a98e9db0b63d9
-    ✔ Should send money to wallet (88ms)
+    ✔ Should send money to wallet (90ms)
 
   🚩 Testing: 🥩 Coin Factory
     ✔ Should set env vars
 Registar contract:  0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
-    ✔ Should deploy Registar (82ms)
-    ✔ Should deploy ERC20Coin (105ms)
-    ✔ Should deploy Vendor (88ms)
+    ✔ Should deploy Registar (112ms)
+    ✔ Should deploy ERC20Coin (151ms)
+    ✔ Should deploy Vendor (90ms)
     Coin
           ⏳ Minting 5M tokens...
           ⏳ Waiting for confirmation from mint function...
-      ✔ You should be able to mint tokens() (105ms)
+      ✔ You should be able to mint tokens() (102ms)
       ✔ should fail if you try to mint an amount greater than the hard cap
           ⏳ Airdropping some tokens...
           ⏳ Waiting for confirmation from airdrop function...
-      ✔ You should be able to airdrop tokens() (84ms)
+      ✔ You should be able to airdrop tokens() (74ms)
     Vendor
           🧑‍🏫 Tester Address:  0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
           ⚖️ Starting balance:  0
@@ -104,30 +104,30 @@ Registar contract:  0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
           🏷  buyResult:  0xfe8800abdb5c18d128859e75fbfd3337904b19c52e1c38b6d46d281ec21f5bc4
           ⏳ Waiting for confirmation...
           🔎 New balance:  3200000.0
-      ✔ Balance should go up when you buyTokens() (151ms)
+      ✔ Balance should go up when you buyTokens() (134ms)
 Owner balance before withdraw:  80
           💵 calling withdraw
           🏷  withdrawResult:  0x5fa7f413897a5eae9e66b17cd7a077c9c2c355013e3e82a5b36fa78648087f4d
 Owner balance after withdraw:  0
-      ✔ Owner should be able to withdraw balance from Vendor (566ms)
+      ✔ Owner should be able to withdraw balance from Vendor (803ms)
 
   🚩 Testing: 🥩  Vendor!
-    ✔ Should set env vars (704ms)
+    ✔ Should set env vars (677ms)
 Registar contract:  0x5FbDB2315678afecb367f032d93F642f64180aa3
-    ✔ Should deploy Registar (136ms)
-    ✔ Should deploy ERC20Coin (94ms)
-    ✔ Should deploy Vendor (77ms)
+    ✔ Should deploy Registar (132ms)
+    ✔ Should deploy ERC20Coin (184ms)
+    ✔ Should deploy Vendor (171ms)
     Coin
           ⏳ Minting 500 tokens...
           ⏳ Waiting for confirmation from mint function...
-      ✔ You should be able to mint tokens() (109ms)
+      ✔ You should be able to mint tokens() (131ms)
       ✔ should fail if you try to mint an amount greater than the hard cap
           ⏳ Airdropping some tokens...
           ⏳ Waiting for confirmation from airdrop function...
-      ✔ You should be able to airdrop tokens() (242ms)
+      ✔ You should be able to airdrop tokens() (279ms)
     Vendor
-      ✔ Should be able to set minimalBuy variable (154ms)
-      ✔ Should be able to set tokensPerEth variable (99ms)
+      ✔ Should be able to set minimalBuy variable (159ms)
+      ✔ Should be able to set tokensPerEth variable (125ms)
           🧑‍🏫 Tester Address:  0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
           ⚖️ Starting balance:  50.0
           🔨 Buying...
@@ -135,34 +135,34 @@ Registar contract:  0x5FbDB2315678afecb367f032d93F642f64180aa3
           ⏳ Waiting for confirmation...
           🔎 New balance:  3200050.0
          Contract balance:  246800050.0
-      ✔ Balance should go up when you buyTokens() (106ms)
+      ✔ Balance should go up when you buyTokens() (146ms)
           🔨 Pause Staking...
           🔨 UnPause Staking...
-      ✔ BuyTokens should fail after it is paused (76ms)
+      ✔ BuyTokens should fail after it is paused (118ms)
          Owner balance before withdraw:  9919
          Contract ETH balance before withdraw:  80
           💵 calling withdraw
           🏷  withdrawResult:  0x1e2387c226503fcc06e1a3123fdd11b775af1d738194f3712b72fdf40596fb36
          Owner balance after withdraw:  9999
-      ✔ Owner should be able to withdraw balance from Vendor (530ms)
+      ✔ Owner should be able to withdraw balance from Vendor (894ms)
 
   🚩 Testing: 🥩 Whitelist
-    ✔ Should set env vars
+    ✔ Should set env vars (43ms)
 Whitelist contract:  0x5FbDB2315678afecb367f032d93F642f64180aa3
-    ✔ Should deploy Whitelist (125ms)
+    ✔ Should deploy Whitelist (128ms)
 Coin contract:  0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
-    ✔ Should deploy ERC20Coin (103ms)
+    ✔ Should deploy ERC20Coin (127ms)
           ⏳ Whitelisting coin contract...
           ⏳ Waiting for confirmation from listToken function...
-    ✔ Should add tokens to whitelist (75ms)
+    ✔ Should add tokens to whitelist (101ms)
          Alchemy Coin contract:  0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
           ⏳ Whitelisting Alchemy coin contract...
           ⏳ Waiting for confirmation from listToken function...
-    ✔ Should add another token to whitelist (148ms)
+    ✔ Should add another token to whitelist (222ms)
          Balancer Coin contract:  0x5FC8d32690cc91D4c39d9d3abcBD16989F875707
           ⏳ Whitelisting coin contract...
           ⏳ Waiting for confirmation from listToken function...
-    ✔ Should add another token to whitelist (147ms)
+    ✔ Should add another token to whitelist (169ms)
           ⏳ Retrieving token listings...
           ⏳ Waiting for confirmation from getListings function...
     ✔ Should retrieve token listing from contract
@@ -170,35 +170,35 @@ Coin contract:  0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
           ⏳ Waiting for confirmation from removeToken function...
           ⏳ Retrieving token listings...
           ⏳ Waiting for confirmation from getListings function...
-    ✔ Should delete token from contract (680ms)
+    ✔ Should delete token from contract (855ms)
 
   🚩 Testing: 🥩  Gov Token!
-    ✔ Should set env vars (543ms)
+    ✔ Should set env vars (724ms)
 Registar contract:  0x5FbDB2315678afecb367f032d93F642f64180aa3
-    ✔ Should deploy Registar (142ms)
+    ✔ Should deploy Registar (151ms)
 Coin contract:  0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
-    ✔ Should deploy ERC20Coin (79ms)
+    ✔ Should deploy ERC20Coin (169ms)
 Vendor contract:  0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
-    ✔ Should deploy Vendor (61ms)
+    ✔ Should deploy Vendor (109ms)
 GOV token contract:  0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
-    ✔ Should deploy Governance Token (116ms)
+    ✔ Should deploy Governance Token (204ms)
     Coin
           ⏳ Minting 250M tokens...
           ⏳ Waiting for confirmation from mint function...
-      ✔ You should be able to mint tokens() (91ms)
+      ✔ You should be able to mint tokens() (148ms)
       ✔ should fail if you try to mint an amount greater than the hard cap
           ⏳ Airdropping some tokens...
           ⏳ Waiting for confirmation from airdrop function...
-      ✔ You should be able to airdrop tokens() (244ms)
+      ✔ You should be able to airdrop tokens() (269ms)
     Staker
-      ✔ Should be able to set minimalStake variable (129ms)
-      ✔ Should be able to set MaxStakingPeriod variable (94ms)
-      ✔ Should be able to set minimalBuy variable (88ms)
-      ✔ Should be able to set rates variable (736ms)
+      ✔ Should be able to set minimalStake variable (153ms)
+      ✔ Should be able to set MaxStakingPeriod variable (127ms)
+      ✔ Should be able to set minimalBuy variable (108ms)
+      ✔ Should be able to set rates variable (768ms)
           🔨 Request CoinContract to approve stake...
           🔨 Pause Staking...
           🔨 UnPause Staking...
-      ✔ Staking should fail after it is paused (151ms)
+      ✔ Staking should fail after it is paused (142ms)
           🧑‍🏫 Tester Address:  0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
           ⏳ Waiting for confirmation from register function...
           🔨 Request CoinContract to approve stake...
@@ -207,7 +207,7 @@ GOV token contract:  0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
           🏷  stakeResult:  0x8b15bde9adfd25be115872467fccf58ed4aa8148dba9c79adbe7bfbdfbc009aa
           ⏳ Waiting for confirmation...
           ⚖️ Ending stake:  20000.0
-      ✔ Stake should go up when you stake() (749ms)
+      ✔ Stake should go up when you stake() (781ms)
           ⏳ Retrieving token listings...
           ⏳ Waiting for confirmation from getListings function...
       ✔ Should retrieve token listing from contract
@@ -229,32 +229,32 @@ GOV token contract:  0xc6e7DF5E7b4f2A278906862b61205850344D4e7d
           🏷  burnResult:  0xd0bd39f5fa963347e96c01bca9195386dc32efbfd3825ec2039c78257a8a624f
           ⏳ Waiting for confirmation...
           ⚖️ Ending stake:  0.0
-      ✔ After stake lockup expires, you should be able to burn stake (1569ms)
+      ✔ After stake lockup expires, you should be able to burn stake (1596ms)
           ⏳ Retrieving token listings...
           ⏳ Waiting for confirmation from getListings function...
       ✔ Should retrieve token listing from contract
           ⏳ Transfering some tokens...
          Contract token balance:  994317.808219178082191781
           ⏳ Waiting for confirmation from transferTokens function...
-      ✔ Staker should be able to transfer tokens out() (97ms)
+      ✔ Staker should be able to transfer tokens out() (110ms)
           💵 calling withdraw
           🏷  setResult:  0xcdc2db1ec32fe89bf47077b2660fa79c6b4290892662729079a1cad20af79637
-      ✔ Owner should be able to set min Stake amount (476ms)
+      ✔ Owner should be able to set min Stake amount (863ms)
 
   🚩 Testing: 🥩 Governance
 gnosisSafeWallet address:  0xF3dfB0A70010735B0A14B4A69aFC242b19600049
-    ✔ Should deploy GnosisSafe (441ms)
+    ✔ Should deploy GnosisSafe (541ms)
 Timelock Contract:  0x5FbDB2315678afecb367f032d93F642f64180aa3
-    ✔ Should deploy TimelockController (163ms)
+    ✔ Should deploy TimelockController (207ms)
 Registar contract:  0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
-    ✔ Should deploy Registar (98ms)
+    ✔ Should deploy Registar (89ms)
 Coin contract:  0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
-    ✔ Should deploy ERC20Coin (75ms)
+    ✔ Should deploy ERC20Coin (162ms)
           ⏳ Minting 5M tokens...
           ⏳ Waiting for confirmation from mint function...
-    ✔ You should be able to mint tokens() (71ms)
+    ✔ You should be able to mint tokens() (119ms)
 GOV token contract:  0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9
-    ✔ Should deploy Governance Token (119ms)
+    ✔ Should deploy Governance Token (178ms)
           ⏳ Waiting for confirmation from register function...
           🔨 Request CoinContract to approve stake...
           ⚖️ Starting stake:  0
@@ -263,68 +263,72 @@ GOV token contract:  0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9
           ⏳ Waiting for confirmation...
           ⚖️ Ending stake:  20000.0
           ⚖️ Gov Token Balance:  20000.0
-    ✔ Stake should go up when you stake() (722ms)
+    ✔ Stake should go up when you stake() (775ms)
 Governor contract:  0x0165878A594ca255338adfa4d48449f69242Eb8F
     ✔ Should deploy Governor (121ms)
 Timelock grant proposer role:  0x45c23b6575b2859e389e4afaae85a870addd2b5e57bdb1af5633f094ea94b9f9
-    ✔ Should grant proposer role to Governor (49ms)
+    ✔ Should grant proposer role to Governor (43ms)
 Timelock grant executor role:  0xedbdd8be0193f5a8050ba004e1e30779791b84f48b51de4e6714bf24517712bb
-    ✔ Should grant executor role to Governor (60ms)
+    ✔ Should grant executor role to Governor (41ms)
 Timelock executor role:  true
     ✔ Should check if the executor role belongs to Governor
 Grant canceler role to Gnosis:  0xa28a97830dcc2ca83b8364e0ef7202da91d2a6a438d3d4b95eb87c2840ce14f6
 Confirm Gnosis canceler role:  true
-    ✔ Should grant canceller role to GnosisSafe (55ms)
+    ✔ Should grant canceller role to GnosisSafe (54ms)
 Governor created proposal:  0xfc68d4dac5f2addef1cbacb300bd1d4a734e358ac8ef810524c561dd3b448194
-    ✔ Should be able to create proposal (51ms)
+    ✔ Should be able to create proposal (72ms)
 Governor created proposal:  0x37d07b82c054c9c6397608b9a992115b2a2ad77bfb3ca2b6e3ec482a566c21bc
-    ✔ Should be able to create proposal (51ms)
-    ✔ Should reset harhat server (434ms)
+    ✔ Should be able to create proposal (60ms)
+    ✔ Should reset harhat server (584ms)
 
   🚩 Testing: 🥩 Vault Factory
     ✔ Should set env vars
 Registar contract:  0x5FbDB2315678afecb367f032d93F642f64180aa3
-    ✔ Should deploy Registar (139ms)
+    ✔ Should deploy Registar (137ms)
 Coin contract:  0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
-    ✔ Should deploy ERC20Coin (77ms)
+    ✔ Should deploy ERC20Coin (180ms)
 GOV token contract:  0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
-    ✔ Should deploy Governance Token (127ms)
-Vendor contract:  0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9
-    ✔ Should deploy Vendor (65ms)
-Whitelist contract:  0x5FC8d32690cc91D4c39d9d3abcBD16989F875707
-    ✔ Should deploy Whitelist (56ms)
-VaultFactory contract:  0x0165878A594ca255338adfa4d48449f69242Eb8F
-    ✔ Should deploy VaultFactory (103ms)
-    ✔ Should deploy Vault (80ms)
+    ✔ Should deploy Governance Token (203ms)
+Timelock Contract:  0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9
+    ✔ Should deploy TimelockController (221ms)
+Governor contract:  0x5FC8d32690cc91D4c39d9d3abcBD16989F875707
+    ✔ Should deploy Governor (212ms)
+Vendor contract:  0xa513E6E4b8f2a923D98304ec87F64353C4D5C853
+    ✔ Should deploy Vendor (149ms)
+Whitelist contract:  0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6
+    ✔ Should deploy Whitelist (134ms)
+VaultFactory contract:  0x8A791620dd6260079BF849Dc5567aDC3F2FdC318
+    ✔ Should deploy VaultFactory (102ms)
+    ✔ Should deploy Vault (118ms)
     Coin
           ⏳ Minting 8M tokens...
           ⏳ Waiting for confirmation from mint function...
-      ✔ You should be able to mint tokens() (59ms)
+      ✔ You should be able to mint tokens() (80ms)
           ⏳ Airdropping some tokens...
           ⏳ Waiting for confirmation from airdrop function...
-      ✔ You should be able to airdrop tokens() (205ms)
+      ✔ You should be able to airdrop tokens() (229ms)
     Whitelist
-         Alchemy Coin contract:  0x610178dA211FEF7D417bC0e6FeD39F05609AD788
+         Alchemy Coin contract:  0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82
           ⏳ Whitelisting Alchemy coin contract...
           ⏳ Waiting for confirmation from listToken function...
-      ✔ Should add another token to whitelist (204ms)
-         Balancer Coin contract:  0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0
+      ✔ Should add another token to whitelist (243ms)
+         Balancer Coin contract:  0x0B306BF915C4d645ff596e518fAf3F9669b97016
           ⏳ Whitelisting coin contract...
           ⏳ Waiting for confirmation from listToken function...
-      ✔ Should add another token to whitelist (158ms)
+      ✔ Should add another token to whitelist (230ms)
           ⏳ Whitelisting coin contract...
           ⏳ Waiting for confirmation from listToken function...
-      ✔ Should add tokens to whitelist (54ms)
-         Last Coin contract:  0x0B306BF915C4d645ff596e518fAf3F9669b97016
-      ✔ Should create another coin (70ms)
+      ✔ Should add tokens to whitelist (64ms)
+         Last Coin contract:  0x68B1D87F95878fE05B998F19b66F4baba5De1aed
+      ✔ Should create another coin (69ms)
     VaultFactory
           🔨 Starting new vault...
-          🏷  startResult:  0x6257225cfc2745d98837ba034605508a89e5ab71f594c1f7b2bff52a1d7d2c79
+          🏷  startResult:  0x597cfa2dacf5a1b29821c6c56940611cec505cf50aba8c3089dc5db8ca0779b7
           ⏳ Waiting for confirmation...
-          🏷  Vault Contract:  0x0165878A594ca255338adfa4d48449f69242Eb8F
+          🏷  Vault Contract:  0x8A791620dd6260079BF849Dc5567aDC3F2FdC318
           ⏳ New vault deployed successfully...
           ⏳ Contract balance increased accordingly...
-      ✔ You should be able to createVault() (114ms)
+      ✔ You should be able to createVault() (73ms)
           🔨 Retrieving vaults...
           ⏳ Waiting for confirmation...
          Retrieved vault:  Vault 1
@@ -333,51 +337,71 @@ VaultFactory contract:  0x0165878A594ca255338adfa4d48449f69242Eb8F
           🔨 Deposit tokens to vault...
           🔨 Request CoinContract to approve token transfer...
           ⏳ Waiting for approval...
-          🏷  storeResult:  0xc65da443c41b65bd291d77bbde4308e9f9513e77a17f726247ebc412ad3b6b79
+          🏷  storeResult:  0x73fa44acbf9e7d58b592db342086ca9406ac01863a326df1e1dc3811183f7c78
           ⏳ Waiting for confirmation...
           ⏳ Tokens stored successfully...
           ⏳ Vault balance increased accordingly...
-      ✔ You should be able to deposit tokens to vault (393ms)
+      ✔ You should be able to deposit tokens to vault (466ms)
           🔨 Withdraw tokens from vault...
-          🏷  withdrawResult:  0xaa11bcdc2e8720aa89657daa5f37f1f0ec0a4e5fcc1b852afbde8d68fe61a5af
+          🏷  withdrawResult:  0x3d5e2be4565a8c8d06fad84c0f22f3aa194a7ed0f6b20984cea700138d36b13b
           ⏳ Waiting for confirmation...
           ⏳ Withdrawal successfully...
           ⏳ Vault balance decreased accordingly...
-      ✔ You should be able to withdraw tokens from vault (191ms)
+      ✔ You should be able to withdraw tokens from vault (174ms)
           🔨 Withdraw tokens from vault...
-          ⏳ Main Vault balance decreased accordingly...
+          ⏳ Main Vault balance increased accordingly...
       ✔ Main vault balance should increase accordingly
+         Ape Coin contract:  0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44
+          ⏳ Whitelisting coin contract...
+          ⏳ Waiting for confirmation from listToken function...
+          ⏳ Minting 1000 tokens...
+          ⏳ Waiting for confirmation from mint function...
+          ⏳ Waiting for confirmation from register function...
+         Ape Vault Contract:  0x7a2088a1bFc9d81c55368AE168C2C02570cB814F
+          🏷  Before deposit balance:  BigNumber { _hex: '0x00', _isBigNumber: true }
+          🔨 Request CoinContract to approve token transfer...
+          ⏳ Waiting for approval...
+          🏷  storeResult:  0x0920ed2cc711bf84423f43600911b16899b2b00cc10b8184447c3be9d40d5253
+          ⏳ Waiting for confirmation...
+          ⏳ Tokens stored successfully...
+          🏷  After deposit balance:  BigNumber { _hex: '0x35203b67bccad00000', _isBigNumber: true }
+         Vault created claim:  0x93340cb0b7cc80efed49e9c635812afb56fbafafffead6de0fdf353216b447b7
+          ⏳ Claim created...
+          🏷  Governor proposalID:  47253783455469827337786709504383276772485373484056525854534536578392181317278
+          🏷  Proposal State:  0
+      ✔ You should be able to make a claim from vault (1035ms)
+      ✔ Withdrawal from vault should fail during the claim process (85ms)
           🔨 Withdraw tokens from vault...
           ⏳ Main Vault balance decreased accordingly...
-          🏷  startResult:  0x90da4ff464e25d2a04ad3802b082956021f4f76e06bcfa14fb7b653349de7557
+          🏷  startResult:  0xeb54077336bea17b2f00bb0d7ab6ad49b9a7d10c3beabc112ca3b0934508ce23
           ⏳ Waiting for confirmation...
-      ✔ You should be able to transfer tokens from mainVault (158ms)
+      ✔ You should be able to transfer tokens from mainVault (170ms)
     VaultFactory 2
           🔨 Withdraw balance ...
-          🏷  Result:  0x6b41a3dad2ac5ff06210142004d874246b16372f3ffdb6614be74eabbf585c15
+          🏷  Result:  0xb542c4819ad44f7fb7fea66d7752c468bf798780f9cbea65443529c9bd9e72a6
           ⏳ Waiting for confirmation...
           ⏳ Contract balance decreased accordingly...
-      ✔ You should be able to withdraw from VaultFactory (90ms)
+      ✔ You should be able to withdraw from VaultFactory (104ms)
           🔨 Starting new vault...
-          🏷  startResult:  0xb4ee52e986b0935cf0784944770dbc1ef06faef67d77d8473ff54bffd88f45f9
+          🏷  startResult:  0xc1a81b326bf3d42ad0014d1bb76462c241c9a752686a6a1af23e66dc34941671
           ⏳ Waiting for confirmation...
-          🏷  Vault Contract:  0x0165878A594ca255338adfa4d48449f69242Eb8F
+          🏷  Vault Contract:  0x8A791620dd6260079BF849Dc5567aDC3F2FdC318
           ⏳ New vault deployed successfully...
-      ✔ Deploy a few vaults for testing (113ms)
+      ✔ Deploy a few vaults for testing (122ms)
           🔨 Starting new vault...
-          🏷  startResult:  0x9a348a02ec4dbeee2e837b3f5ac6c0dd70a0eb2afe6d0e64b5bd3fbd3671eb38
+          🏷  startResult:  0xfdc8ddbc9f631738651d55a4133475e218cdf12531feab6477bc7ed3fd7ae04e
           ⏳ Waiting for confirmation...
-          🏷  Vault Contract:  0x0165878A594ca255338adfa4d48449f69242Eb8F
+          🏷  Vault Contract:  0x8A791620dd6260079BF849Dc5567aDC3F2FdC318
           ⏳ New vault deployed successfully...
-      ✔ Deploy a few vaults for testing (113ms)
-         0x34b8e9a3ce540eef71176d3389feb4afee4bd28572407c6f4dd7bfc13ea4259f
-      ✔ Should send money to wallet (447ms)
+      ✔ Deploy a few vaults for testing (117ms)
+         0x6e8def6fa78c164c1d609b2cc6a3f6da1140ca187d4e8e47cbe39004bafcd681
+      ✔ Should send money to wallet (750ms)
 
   🚩 Running: 🥩 EVM Fast Forward
           ⌛️ Fast forward EVM time...
     ✔ Fast forward
 
 
-  101 passing (22s)
+  105 passing (28s)
 
 ```
