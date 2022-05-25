@@ -1,14 +1,22 @@
 import hre from "hardhat";
-const { ethers } = hre;
+
+import TimelockArtifact from "../artifacts/contracts/TimelockController.sol/GovTimelockController.json";
+import GovernorArtifact from "../artifacts/contracts/GovernorUpgradeable.sol/BlocksuranceGovernor.json";
+import { getTransactionEta, mineBlockAtTimestamp } from "./helpers/utils";
+const { ethers, waffle } = hre;
 const { use, expect } = require("chai");
 const { solidity } = require("ethereum-waffle");
+const { deployContract } = waffle;
+const { BigNumber } = ethers;
 
 use(solidity);
 
 describe("🚩 Testing: 🥩 Vault Factory", async function () {
   this.timeout(45000);
+  const timelockDelay = 2; // seconds
 
   let msgSender: any;
+  let govContract: any;
   let whitelistContract: any;
   let factoryContract: any;
   let vaultContract: any;
@@ -16,6 +24,8 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
   let govtokenContract: any;
   let registarContract: any;
   let vendorContract: any;
+  let timelockContract: any;
+  let newvaultContract: any;
 
   it("Should set env vars", async function () {
     const [owner, acc1] = await ethers.getSigners();
@@ -38,15 +48,6 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
     console.log("Coin contract: ", coinContract.address);
   });
 
-  // it("Should deploy StakerRewards", async function () {
-  //   const staker = await ethers.getContractFactory("BLOCKVOTES");
-  //   govtokenContract = await staker.deploy(
-  //     coinContract.address,
-  //     registarContract.address
-  //   );
-  //   console.log("Staker contract: ", govtokenContract.address);
-  // });
-
   it("Should deploy Governance Token", async function () {
     const govToken = await ethers.getContractFactory("BLOCKSURANCE");
     govtokenContract = await govToken.deploy({ gasLimit: 30000000 });
@@ -61,6 +62,33 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
     expect(ethers.utils.isAddress(await govtokenContract.address)).to.be.equal(
       true
     );
+  });
+
+  it("Should deploy TimelockController", async function () {
+    // contract deployments
+    const [owner, acc1] = await ethers.getSigners();
+    timelockContract = await deployContract(owner, TimelockArtifact, [
+      timelockDelay,
+      [owner.address, acc1.address], // proposers
+      [owner.address], // executors
+    ]);
+    console.log("Timelock Contract: ", timelockContract.address);
+    expect(ethers.utils.isAddress(await timelockContract.address)).to.be.equal(
+      true
+    );
+  });
+
+  it("Should deploy Governor", async function () {
+    // contract deployments
+    const [owner] = await ethers.getSigners();
+    govContract = await deployContract(owner, GovernorArtifact, []);
+    console.log("Governor contract: ", govContract.address);
+    await govContract.initialize(
+      govtokenContract.address,
+      timelockContract.address,
+      { gasLimit: 30000000 }
+    );
+    expect(ethers.utils.isAddress(await govContract.address)).to.be.equal(true);
   });
 
   it("Should deploy Vendor", async function () {
@@ -86,11 +114,13 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
     const Factory = await ethers.getContractFactory("VaultFactory");
     factoryContract = await Factory.deploy(
       registarContract.address,
+      govContract.address,
       whitelistContract.address,
       msgSender
     );
     console.log("VaultFactory contract: ", factoryContract.address);
   });
+
   it("Should deploy Vault", async function () {
     const vault = await ethers.getContractFactory("Vault");
     const [owner, acc1] = await ethers.getSigners();
@@ -99,7 +129,8 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       factoryContract.address,
       msgSender,
       "Vault 1",
-      acc1.address // refAddress
+      acc1.address, // refAddress
+      govContract.address
     );
   });
 
@@ -214,9 +245,8 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       console.log("\t", " 🔨 Starting new vault...");
       const startResult = await factoryContract.createVault(
         coinContract.address,
-
         "Vault 1",
-        { value: ethers.utils.parseEther("0.005") }
+        { value: ethers.utils.parseEther("0.005"), gasLimit: 30000000 }
       );
       console.log("\t", " 🏷  startResult: ", startResult.hash);
 
@@ -309,7 +339,135 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       const oneBalance = await coinContract.balanceOf(factoryContract.address);
 
       expect(oneBalance).to.equal(ethers.utils.parseEther("0.03"));
-      console.log("\t", " ⏳ Main Vault balance decreased accordingly...");
+      console.log("\t", " ⏳ Main Vault balance increased accordingly...");
+    });
+
+    it("You should be able to make a claim from vault", async function () {
+      const [owner, acc1] = await ethers.getSigners();
+      const Coin = await ethers.getContractFactory("ERC20Coin");
+      const newContract = await Coin.deploy(
+        "ApeCoin",
+        "APE",
+        ethers.utils.parseEther("1000000"),
+        msgSender
+      );
+
+      console.log("\t", "Ape Coin contract: ", newContract.address);
+      console.log("\t", " ⏳ Whitelisting coin contract...");
+      const wlResult = await whitelistContract.listToken(
+        "ApeCoin",
+        "APE",
+        newContract.address
+      );
+      console.log(
+        "\t",
+        " ⏳ Waiting for confirmation from listToken function..."
+      );
+      const txResult = await wlResult.wait();
+      expect(txResult.status).to.equal(1);
+
+      console.log("\t", " ⏳ Minting 1000 tokens...");
+      const oneBalance = await newContract.balanceOf(acc1.address);
+      const mintResult = await newContract.mint(
+        acc1.address,
+        ethers.utils.parseEther("1000")
+      );
+      console.log("\t", " ⏳ Waiting for confirmation from mint function...");
+
+      const txResult2 = await mintResult.wait();
+      expect(txResult2.status).to.equal(1);
+      const twoBalance = await newContract.balanceOf(acc1.address);
+      expect(twoBalance).to.equal(
+        oneBalance.add(ethers.utils.parseEther("1000"))
+      );
+
+      const rgResult = await registarContract.connect(acc1).register(msgSender);
+      console.log(
+        "\t",
+        " ⏳ Waiting for confirmation from register function..."
+      );
+      const rtxResult = await rgResult.wait();
+      expect(rtxResult.status).to.equal(1);
+
+      const vault = await ethers.getContractFactory("Vault");
+
+      newvaultContract = await vault.deploy(
+        newContract.address,
+        factoryContract.address,
+        acc1.address,
+        "APE Vault",
+        msgSender, // refAddress
+        govContract.address
+      );
+
+      console.log("\t", "Ape Vault Contract: ", newvaultContract.address);
+
+      const vaultBalance = await newContract.balanceOf(
+        newvaultContract.address
+      );
+      console.log("\t", " 🏷  Before deposit balance: ", vaultBalance);
+
+      console.log(
+        "\t",
+        " 🔨 Request CoinContract to approve token transfer..."
+      );
+      const approveResult = await newContract
+        .connect(acc1)
+        .approve(newvaultContract.address, ethers.utils.parseEther("1000"));
+
+      console.log("\t", " ⏳ Waiting for approval...");
+      let txResult6 = await approveResult.wait();
+      expect(txResult6.status).to.equal(1);
+
+      const storeResult = await newvaultContract
+        .connect(acc1)
+        .storeTokens(ethers.utils.parseEther("1000"));
+
+      console.log("\t", " 🏷  storeResult: ", storeResult.hash);
+      console.log("\t", " ⏳ Waiting for confirmation...");
+      txResult6 = await storeResult.wait();
+      expect(txResult6.status).to.equal(1);
+      console.log("\t", " ⏳ Tokens stored successfully...");
+
+      const vaultBalance2 = await newContract.balanceOf(
+        newvaultContract.address
+      );
+      console.log("\t", " 🏷  After deposit balance: ", vaultBalance2);
+      expect(vaultBalance2).to.equal(
+        vaultBalance.add(ethers.utils.parseEther("980")) // -2% commission fee
+      );
+
+      const txResult4 = await newvaultContract
+        .connect(acc1)
+        .makeClaim(ethers.utils.parseEther("0.1"));
+
+      console.log("\t", "Vault created claim: ", txResult4.hash);
+      const Result = await txResult4.wait();
+      expect(Result.status).to.equal(1);
+      // console.log(Result);
+      // console.log("\t", " 🏷  Claim event: ", Result.events[0]);
+
+      console.log("\t", " ⏳ Claim created...");
+      const txResult7 = await newvaultContract.claim();
+
+      console.log("\t", " 🏷  Governor proposalID: ", txResult7.toString());
+
+      const shapshot = await govContract.state(
+        BigNumber.from(txResult7.toString())
+      );
+      console.log("\t", " 🏷  Proposal State: ", shapshot);
+
+      // const eta = timelockDelay + 1;
+      // await mineBlockAtTimestamp(eta);
+
+      // const txResult5 = await governorContract.proposalSnapshot;
+    });
+
+    it("Withdrawal from vault should fail during the claim process", async function () {
+      const [owner, acc1] = await ethers.getSigners();
+      await expect(
+        newvaultContract.connect(acc1).withdrawTokens({ gasLimit: 3000000 })
+      ).to.be.revertedWith("Claim in progress!");
     });
 
     it("You should be able to transfer tokens from mainVault", async function () {
@@ -353,7 +511,6 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       console.log("\t", " 🔨 Starting new vault...");
       const startResult = await factoryContract.createVault(
         coinContract.address,
-
         "Vault 2",
         { value: ethers.utils.parseEther("0.005") }
       );
