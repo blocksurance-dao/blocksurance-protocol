@@ -89,15 +89,6 @@ contract BlocksuranceGovernor is
 		return super.state(proposalId);
 	}
 
-	function proposeDelegate(
-		address[] memory targets,
-		uint256[] memory values,
-		bytes[] memory calldatas,
-		string memory description
-	) public payable returns (uint256) {
-		return propose(targets, values, calldatas, description);
-	}
-
 	function propose(
 		address[] memory targets,
 		uint256[] memory values,

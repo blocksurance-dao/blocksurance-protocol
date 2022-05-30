@@ -138,8 +138,4 @@ contract VaultFactory {
 		);
 		emit WithdrawTokens(tokenAddress, tokenAmount, _to, block.timestamp);
 	}
-
-	function transferOwnership(address _to) public onlyOwner {
-		owner = payable(_to);
-	}
 }
