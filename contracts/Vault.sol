@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-v3.0
 pragma solidity ^0.8.4;
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
 import "./IERC20.sol";
-import "./IGovernorUpgradeable.sol";
+import "./GovernorUpgradeable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract Vault {
@@ -166,7 +166,12 @@ contract Vault {
 		emit ClaimPayout(claim, msg.sender, tokenAmount, block.timestamp);
 	}
 
-	function makeClaim(uint256 _amount) external onlyOwner returns (uint256) {
+	function makeClaim(uint256 _amount)
+		external
+		payable
+		onlyOwner
+		returns (uint256)
+	{
 		// function calls the governor contract and creates a claim proposal
 		IERC20 tokenContract = IERC20(serviceContract);
 		uint256 tokenAmount = tokenContract.balanceOf(address(this));
@@ -174,28 +179,46 @@ contract Vault {
 		require(claim == 0, "Claim already exists!");
 
 		address[] memory to = new address[](1);
-		to[0] = address(this);
+		to[0] = payable(address(this));
 		uint256[] memory amount = new uint256[](1);
 		amount[0] = _amount;
 		bytes[] memory signature = new bytes[](1);
+		// signature[0] = "0x4847a79c";
 		signature[0] = abi.encodeWithSignature("_transfer(address,uint256)");
-
 		string memory symbol = tokenContract.symbol();
-		IGovernorUpgradeable governorContract = IGovernorUpgradeable(governor);
+		string memory description = append(
+			"Claim lost value from vault ",
+			Strings.toHexString(uint256(uint160(address(this)))),
+			" for token ",
+			symbol,
+			" ",
+			Strings.toHexString(uint256(uint160(serviceContract)))
+		);
 
-		uint256 proposalID = governorContract.propose(
+		GovernorUpgradeable governorContract = GovernorUpgradeable(
+			payable(governor)
+		);
+
+		(bool success, ) = address(governorContract).delegatecall(
+			abi.encodeWithSignature(
+				"proposeDelegate(address[],uint256[],bytes[],string)",
+				to,
+				amount,
+				signature,
+				description
+			)
+		);
+
+		require(success, "Create claim failed.");
+
+		uint256 proposalID = governorContract.hashProposal(
 			to,
 			amount,
 			signature,
-			append(
-				"Claim lost value from vault ",
-				Strings.toHexString(uint256(uint160(address(this)))),
-				" for token ",
-				symbol,
-				" ",
-				Strings.toHexString(uint256(uint160(serviceContract)))
-			)
+			keccak256(bytes(description))
 		);
+
+		// console.log("proposalID", proposalID);
 
 		claim = proposalID;
 		emit ClaimCreated(proposalID, msg.sender, tokenAmount, block.timestamp);
