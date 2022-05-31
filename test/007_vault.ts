@@ -26,8 +26,11 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
   let vendorContract: any;
   let timelockContract: any;
   let newvaultContract: any;
+  let faucetContract: any;
+  let apeContract: any;
 
   it("Should set env vars", async function () {
+    await hre.network.provider.send("hardhat_reset");
     const [owner, acc1] = await ethers.getSigners();
     msgSender = owner.address;
   });
@@ -59,7 +62,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       { gasLimit: 30000000 }
     );
     console.log("GOV token contract: ", govtokenContract.address);
-    expect(ethers.utils.isAddress(await govtokenContract.address)).to.be.equal(
+    await expect(ethers.utils.isAddress(govtokenContract.address)).to.be.equal(
       true
     );
   });
@@ -73,7 +76,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       [owner.address], // executors
     ]);
     console.log("Timelock Contract: ", timelockContract.address);
-    expect(ethers.utils.isAddress(await timelockContract.address)).to.be.equal(
+    await expect(ethers.utils.isAddress(timelockContract.address)).to.be.equal(
       true
     );
   });
@@ -88,7 +91,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       timelockContract.address,
       { gasLimit: 30000000 }
     );
-    expect(ethers.utils.isAddress(await govContract.address)).to.be.equal(true);
+    await expect(ethers.utils.isAddress(govContract.address)).to.be.equal(true);
   });
 
   it("Should deploy Vendor", async function () {
@@ -99,7 +102,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       msgSender
     );
     console.log("Vendor contract: ", vendorContract.address);
-    expect(ethers.utils.isAddress(await vendorContract.address)).to.be.equal(
+    await expect(ethers.utils.isAddress(vendorContract.address)).to.be.equal(
       true
     );
   });
@@ -345,19 +348,19 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
     it("You should be able to make a claim from vault", async function () {
       const [owner, acc1] = await ethers.getSigners();
       const Coin = await ethers.getContractFactory("ERC20Coin");
-      const newContract = await Coin.deploy(
+      apeContract = await Coin.deploy(
         "ApeCoin",
         "APE",
         ethers.utils.parseEther("1000000"),
         msgSender
       );
 
-      console.log("\t", "Ape Coin contract: ", newContract.address);
+      console.log("\t", "Ape Coin contract: ", apeContract.address);
       console.log("\t", " ⏳ Whitelisting coin contract...");
       const wlResult = await whitelistContract.listToken(
         "ApeCoin",
         "APE",
-        newContract.address
+        apeContract.address
       );
       console.log(
         "\t",
@@ -367,8 +370,8 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       expect(txResult.status).to.equal(1);
 
       console.log("\t", " ⏳ Minting 1000 tokens...");
-      const oneBalance = await newContract.balanceOf(acc1.address);
-      const mintResult = await newContract.mint(
+      const oneBalance = await apeContract.balanceOf(acc1.address);
+      const mintResult = await apeContract.mint(
         acc1.address,
         ethers.utils.parseEther("1000")
       );
@@ -376,7 +379,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
 
       const txResult2 = await mintResult.wait();
       expect(txResult2.status).to.equal(1);
-      const twoBalance = await newContract.balanceOf(acc1.address);
+      const twoBalance = await apeContract.balanceOf(acc1.address);
       expect(twoBalance).to.equal(
         oneBalance.add(ethers.utils.parseEther("1000"))
       );
@@ -392,7 +395,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       const vault = await ethers.getContractFactory("Vault");
 
       newvaultContract = await vault.deploy(
-        newContract.address,
+        apeContract.address,
         factoryContract.address,
         acc1.address,
         "APE Vault",
@@ -402,7 +405,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
 
       console.log("\t", "Ape Vault Contract: ", newvaultContract.address);
 
-      const vaultBalance = await newContract.balanceOf(
+      const vaultBalance = await apeContract.balanceOf(
         newvaultContract.address
       );
       console.log("\t", " 🏷  Before deposit balance: ", vaultBalance);
@@ -411,7 +414,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
         "\t",
         " 🔨 Request CoinContract to approve token transfer..."
       );
-      const approveResult = await newContract
+      const approveResult = await apeContract
         .connect(acc1)
         .approve(newvaultContract.address, ethers.utils.parseEther("1000"));
 
@@ -429,7 +432,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
       expect(txResult6.status).to.equal(1);
       console.log("\t", " ⏳ Tokens stored successfully...");
 
-      const vaultBalance2 = await newContract.balanceOf(
+      const vaultBalance2 = await apeContract.balanceOf(
         newvaultContract.address
       );
       console.log("\t", " 🏷  After deposit balance: ", vaultBalance2);
@@ -439,7 +442,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
 
       const txResult4 = await newvaultContract
         .connect(acc1)
-        .makeClaim(ethers.utils.parseEther("0.1"));
+        .makeClaim(ethers.utils.parseEther("0.1"), { gasLimit: 3000000 });
 
       console.log("\t", "Vault created claim: ", txResult4.hash);
       const Result = await txResult4.wait();
@@ -540,12 +543,12 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
     it("Should send money to wallet", async function () {
       const [owner] = await ethers.getSigners();
       // const transactionHash = await owner.sendTransaction({
-      //   to: "your metamask burner address",
+      //   to: "",
       //   value: ethers.utils.parseEther("100.0"), // Sends exactly 1.0 ether
       // });
       // console.log("\t", transactionHash.hash);
       // const transactionHash2 = await owner.sendTransaction({
-      //   to: "your metamask burner address2",
+      //   to: "",
       //   value: ethers.utils.parseEther("100.0"), // Sends exactly 1.0 ether
       // });
       // console.log("\t", transactionHash2.hash);
@@ -554,7 +557,7 @@ describe("🚩 Testing: 🥩 Vault Factory", async function () {
         value: ethers.utils.parseEther("1.0"), // Sends exactly 1.0 ether
       });
       console.log("\t", transactionHash3.hash);
-      await hre.network.provider.send("hardhat_reset");
+      // await hre.network.provider.send("hardhat_reset");
     });
   });
 });
