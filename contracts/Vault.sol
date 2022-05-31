@@ -14,6 +14,7 @@ contract Vault {
 	address private mainVaultAddress;
 	address private refAddress;
 	uint256 public claim = 0;
+	address public lastReceiver;
 
 	enum ProposalState {
 		Pending,
@@ -174,11 +175,10 @@ contract Vault {
 		require(claim == 0, "Claim already exists!");
 
 		address[] memory to = new address[](1);
-		to[0] = address(this);
+		to[0] = payable(address(this));
 		uint256[] memory amount = new uint256[](1);
 		amount[0] = _amount;
 		bytes[] memory signature = new bytes[](1);
-		signature[0] = abi.encodeWithSignature("_transfer(address,uint256)");
 
 		string memory symbol = tokenContract.symbol();
 		IGovernorUpgradeable governorContract = IGovernorUpgradeable(governor);
