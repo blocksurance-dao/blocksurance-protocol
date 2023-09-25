@@ -3,7 +3,7 @@ Decentralized insurance protocol.
 
 ## Getting Started
 
-First, run the development server:
+Install and run tests with hardhat: 👷
 
 ```bash
 git clone https://github.com/blocksurance-dao/blocksurance-protocol.git
